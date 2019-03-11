@@ -14,6 +14,8 @@ $(document).ready(function(){
         type = 0;
         updateBudget();
     });
+    peticioAjax();
+    //insert = setInterval(peticioAjax,5000);
 });
 
 function peticioAjax(){
@@ -31,6 +33,7 @@ function peticioAjax(){
             if (last == false){
                 updates=dades.updateTime;
                 //var station = new Array();
+                
                 $(document.body).append('<p id=\''+dades.updateTime+'\'></p><br>');
                 $('#'+dades.updateTime).append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
                 /*station[dades.updateTime]['bikeEst']=0;
@@ -64,6 +67,31 @@ function peticioAjax(){
                     station.push('<div>'+element+'</div>')
                 });*/
                 //alert(dades.stations.length);
+                 $(document.body).append('<div id="chart_div"></div>');
+//---------------------------Google Chart-----------------------------------
+                // Load the Visualization API and the corechart package.
+                google.charts.load('current', {'packages':['corechart']});
+
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(function(){
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Topping');
+                    data.addColumn('number', 'Slices');
+                    data.addRows([
+                      ['BIKE', bikeEst],
+                      ['BIKE-ELECTRIC', bikeElEst],
+                    ]);
+
+                    // Set chart options
+                    var options = {'title':'Quantitat d\'estacions per tipus',
+                                   'width':600,
+                                   'height':500};
+
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                });
             }
         });
 }
