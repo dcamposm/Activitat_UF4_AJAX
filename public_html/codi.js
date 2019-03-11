@@ -2,6 +2,18 @@ $(document).ready(function(){
     updates = 0;
     //alert(updates.length);
     insert = setInterval(peticioAjax,5000);
+
+    $("#change").click(function() {
+        
+    });
+    $("#stop").click(function() {
+        type = 0;
+        updateBudget();
+    });
+    $("#rep").click(function() {
+        type = 0;
+        updateBudget();
+    });
 });
 
 function peticioAjax(){
