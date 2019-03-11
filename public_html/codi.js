@@ -72,8 +72,8 @@ function peticioAjax(){
 
                     // Set chart options
                     var options = {'title':'Quantitat d\'estacions per tipus',
-                                   'width':400,
-                                   'height':300};
+                                   'width':600,
+                                   'height':500};
 
                     // Instantiate and draw our chart, passing in some options.
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
