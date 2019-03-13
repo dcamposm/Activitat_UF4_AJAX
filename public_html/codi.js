@@ -38,9 +38,9 @@ function peticioAjax(){
             if (last == false){
                 updates=dades.updateTime;
                 //var station = new Array();
-                
-                $(document.body).append('<p id=\''+dades.updateTime+'\'></p><br>');
-                $('#'+dades.updateTime).append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
+                $('#info').remove();
+                $(document.body).append('<p id=\'info\'></p><br>');
+                $('#info').append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
                 /*station[dades.updateTime]['bikeEst']=0;
                 station[dades.updateTime]['bikeDisp']=0;
                 station[dades.updateTime]['bikeSlot']=0;
@@ -66,14 +66,28 @@ function peticioAjax(){
                     }
                 }
                 //station['bikeEst']=dades.updateTime;
-                $('#'+dades.updateTime).append('<p>Tipus BIKE: hi ha <b>'+bikeEst+'</b> estacions amb <b>'+bikeDisp+'</b> bicis disponibles i <b>'+bikeSlot+'</b> slots lliures</p>');
-                $('#'+dades.updateTime).append('<p>Tipus BIKE-ELECTRIC: hi ha <b>'+bikeElEst+'</b> estacions amb <b>'+bikeElDisp+'</b> bicis disponibles i <b>'+bikeElSlot+'</b> slots lliures</p>');
+                $('#info').append('<p>Tipus BIKE: hi ha <b>'+bikeEst+'</b> estacions amb <b>'+bikeDisp+'</b> bicis disponibles i <b>'+bikeSlot+'</b> slots lliures</p>');
+                $('#info').append('<p>Tipus BIKE-ELECTRIC: hi ha <b>'+bikeElEst+'</b> estacions amb <b>'+bikeElDisp+'</b> bicis disponibles i <b>'+bikeElSlot+'</b> slots lliures</p>');
                 /*dades.forEach( function(element) {
                     station.push('<div>'+element+'</div>')
                 });*/
                 //alert(dades.stations.length);
-                 $(document.body).append('<div id="chart_div"></div>');
+//------------------------------Leaflet------------------------------------- 
+                $('#mapid').remove();
+                $(document.body).append('<div id="mapid"></div>');
+                var mymap = L.map('mapid').setView([41.3887901, 2.1589899], 12);
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoiZGNhbXBvcyIsImEiOiJjanQ2eGx4NmwwNHluNDNyemFiYXc3MHNkIn0.CDWBA5rROqlrInJ4h3_bEw'
+                }).addTo(mymap);
+                for (var i=0; i<dades.stations.length; i++) {
+                    var marker = L.marker([dades.stations[i].latitude, dades.stations[i].longitude]).addTo(mymap);
+                }
 //---------------------------Google Chart-----------------------------------
+                $('#chart_div').remove();
+                $(document.body).append('<div id="chart_div"></div>');
                 // Load the Visualization API and the corechart package.
                 google.charts.load('current', {'packages':['corechart']});
 
