@@ -1,14 +1,32 @@
 $(document).ready(function(){
     updates = 0;
+    cont = 0;
     //alert(updates.length);
-    //peticioAjax();
-    insert = setInterval(peticioAjax,3000);
+    var freqShow = 3;
+    var freq = freqShow * 1000;
+
+    insert = setInterval(peticioAjax, freq);
+
+    $("#stop").click(function() {
+        clearInterval(insert);
+    });
+    $("#rep").click(function() {
+        
+    });
+
+    $("#freq").text(freqShow);
+    peticioAjax();
+    //insert = setInterval(peticioAjax,5000);
 });
 
 function peticioAjax(){
     var url = 'https://cors.io/?http://wservice.viabicing.cat/v2/stations?format=json';
     $.getJSON(url, function(dades) { 
             var last = false;
+
+            cont++;
+            console.log(cont);
+
             if (updates == 0){
                 updates=dades.updateTime;
             } else {
@@ -20,7 +38,6 @@ function peticioAjax(){
             if (last == false){
                 updates=dades.updateTime;
                 //var station = new Array();
-                
                 $('#info').remove();
                 $(document.body).append('<p id=\'info\'></p><br>');
                 $('#info').append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
@@ -55,9 +72,22 @@ function peticioAjax(){
                     station.push('<div>'+element+'</div>')
                 });*/
                 //alert(dades.stations.length);
-                $('#chart_div').remove();
-                 $(document.body).append('<div id="chart_div"></div>');
+//------------------------------Leaflet------------------------------------- 
+                $('#mapid').remove();
+                $(document.body).append('<div id="mapid"></div>');
+                var mymap = L.map('mapid').setView([41.3887901, 2.1589899], 12);
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoiZGNhbXBvcyIsImEiOiJjanQ2eGx4NmwwNHluNDNyemFiYXc3MHNkIn0.CDWBA5rROqlrInJ4h3_bEw'
+                }).addTo(mymap);
+                for (var i=0; i<dades.stations.length; i++) {
+                    var marker = L.marker([dades.stations[i].latitude, dades.stations[i].longitude]).addTo(mymap);
+                }
 //---------------------------Google Chart-----------------------------------
+                $('#chart_div').remove();
+                $(document.body).append('<div id="chart_div"></div>');
                 // Load the Visualization API and the corechart package.
                 google.charts.load('current', {'packages':['corechart']});
 
