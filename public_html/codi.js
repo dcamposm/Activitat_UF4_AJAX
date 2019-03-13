@@ -1,19 +1,20 @@
 $(document).ready(function(){
     updates = 0;
+    cont = 0;
     //alert(updates.length);
-    insert = setInterval(peticioAjax,5000);
+    var freqShow = 3;
+    var freq = freqShow * 1000;
 
-    $("#change").click(function() {
-        
-    });
+    insert = setInterval(peticioAjax, freq);
+
     $("#stop").click(function() {
-        type = 0;
-        updateBudget();
+        clearInterval(insert);
     });
     $("#rep").click(function() {
-        type = 0;
-        updateBudget();
+        
     });
+
+    $("#freq").text(freqShow);
     peticioAjax();
     //insert = setInterval(peticioAjax,5000);
 });
@@ -22,6 +23,10 @@ function peticioAjax(){
     var url = 'https://cors.io/?http://wservice.viabicing.cat/v2/stations?format=json';
     $.getJSON(url, function(dades) { 
             var last = false;
+
+            cont++;
+            console.log(cont);
+
             if (updates == 0){
                 updates=dades.updateTime;
             } else {
