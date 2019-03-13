@@ -1,8 +1,8 @@
 $(document).ready(function(){
     updates = 0;
     //alert(updates.length);
-    peticioAjax();
-    //insert = setInterval(peticioAjax,5000);
+    //peticioAjax();
+    insert = setInterval(peticioAjax,3000);
 });
 
 function peticioAjax(){
@@ -21,8 +21,9 @@ function peticioAjax(){
                 updates=dades.updateTime;
                 //var station = new Array();
                 
-                $(document.body).append('<p id=\''+dades.updateTime+'\'></p><br>');
-                $('#'+dades.updateTime).append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
+                $('#info').remove();
+                $(document.body).append('<p id=\'info\'></p><br>');
+                $('#info').append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
                 /*station[dades.updateTime]['bikeEst']=0;
                 station[dades.updateTime]['bikeDisp']=0;
                 station[dades.updateTime]['bikeSlot']=0;
@@ -48,12 +49,13 @@ function peticioAjax(){
                     }
                 }
                 //station['bikeEst']=dades.updateTime;
-                $('#'+dades.updateTime).append('<p>Tipus BIKE: hi ha <b>'+bikeEst+'</b> estacions amb <b>'+bikeDisp+'</b> bicis disponibles i <b>'+bikeSlot+'</b> slots lliures</p>');
-                $('#'+dades.updateTime).append('<p>Tipus BIKE-ELECTRIC: hi ha <b>'+bikeElEst+'</b> estacions amb <b>'+bikeElDisp+'</b> bicis disponibles i <b>'+bikeElSlot+'</b> slots lliures</p>');
+                $('#info').append('<p>Tipus BIKE: hi ha <b>'+bikeEst+'</b> estacions amb <b>'+bikeDisp+'</b> bicis disponibles i <b>'+bikeSlot+'</b> slots lliures</p>');
+                $('#info').append('<p>Tipus BIKE-ELECTRIC: hi ha <b>'+bikeElEst+'</b> estacions amb <b>'+bikeElDisp+'</b> bicis disponibles i <b>'+bikeElSlot+'</b> slots lliures</p>');
                 /*dades.forEach( function(element) {
                     station.push('<div>'+element+'</div>')
                 });*/
                 //alert(dades.stations.length);
+                $('#chart_div').remove();
                  $(document.body).append('<div id="chart_div"></div>');
 //---------------------------Google Chart-----------------------------------
                 // Load the Visualization API and the corechart package.
