@@ -50,7 +50,7 @@ function peticioAjax(){
                 updates=dades.updateTime;
                 //var station = new Array();
                 $('#info').remove();
-                $(document.body).append('<p id=\'info\'></p><br>');
+                $(document.body).append('<p id=\'info\'></p>');
                 $('#info').append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
                 /*station[dades.updateTime]['bikeEst']=0;
                 station[dades.updateTime]['bikeDisp']=0;
