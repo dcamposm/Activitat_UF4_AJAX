@@ -83,9 +83,11 @@ function peticioAjax(){
                     station.push('<div>'+element+'</div>')
                 });*/
                 //alert(dades.stations.length);
+                $('#info2').remove();
+                $(document.body).append('<div id="info2" class=\'row\'></div>');
 //------------------------------Leaflet------------------------------------- 
                 $('#mapid').remove();
-                $(document.body).append('<div id="mapid"></div>');
+                $('#info2').append('<div id="mapid"></div>');
                 var mymap = L.map('mapid').setView([41.3887901, 2.1589899], 12);
                 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -98,7 +100,7 @@ function peticioAjax(){
                 }
 //---------------------------Google Chart-----------------------------------
                 $('#chart_div').remove();
-                $(document.body).append('<div id="chart_div"></div>');
+                $('#info2').append('<div id="chart_div"></div>');
                 // Load the Visualization API and the corechart package.
                 google.charts.load('current', {'packages':['corechart']});
 
