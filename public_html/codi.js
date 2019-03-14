@@ -1,9 +1,7 @@
 $(document).ready(function(){
     updates = 0;
-    cont = 0;
     //alert(updates.length);
-    var freqShow = 3;
-    var freq = freqShow * 1000;
+    var freq = parseInt($("#freq").text()) * 1000;
 
     insert = setInterval(peticioAjax, freq);
 
@@ -11,10 +9,26 @@ $(document).ready(function(){
         clearInterval(insert);
     });
     $("#rep").click(function() {
+        insert = setInterval(peticioAjax, freq);
+    });
+    $('#myModal').on('shown.bs.modal', function () {
+
+        clearInterval(insert);
+
+        var modal = $(this);
+        modal.find('#save').click(function () {
+            var result = modal.find('#inpModal').val();
+            if (result > 0) {
+                $("#freq").text(result);
+                freq = result * 1000;
+            }
+
+            insert = setInterval(peticioAjax, freq);
+
+        });
         
     });
 
-    $("#freq").text(freqShow);
     peticioAjax();
     //insert = setInterval(peticioAjax,5000);
 });
@@ -23,9 +37,6 @@ function peticioAjax(){
     var url = 'https://cors.io/?http://wservice.viabicing.cat/v2/stations?format=json';
     $.getJSON(url, function(dades) { 
             var last = false;
-
-            cont++;
-            console.log(cont);
 
             if (updates == 0){
                 updates=dades.updateTime;
