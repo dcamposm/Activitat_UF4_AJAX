@@ -1,9 +1,7 @@
 $(document).ready(function(){
     updates = 0;
-    cont = 0;
     //alert(updates.length);
-    var freqShow = 3;
-    var freq = freqShow * 1000;
+    var freq = parseInt($("#freq").text()) * 1000;
 
     insert = setInterval(peticioAjax, freq);
 
@@ -11,10 +9,26 @@ $(document).ready(function(){
         clearInterval(insert);
     });
     $("#rep").click(function() {
+        insert = setInterval(peticioAjax, freq);
+    });
+    $('#myModal').on('shown.bs.modal', function () {
+
+        clearInterval(insert);
+
+        var modal = $(this);
+        modal.find('#save').click(function () {
+            var result = modal.find('#inpModal').val();
+            if (result > 0) {
+                $("#freq").text(result);
+                freq = result * 1000;
+            }
+
+            insert = setInterval(peticioAjax, freq);
+
+        });
         
     });
 
-    $("#freq").text(freqShow);
     peticioAjax();
     //insert = setInterval(peticioAjax,5000);
 });
@@ -23,9 +37,6 @@ function peticioAjax(){
     var url = 'https://cors.io/?http://wservice.viabicing.cat/v2/stations?format=json';
     $.getJSON(url, function(dades) { 
             var last = false;
-
-            cont++;
-            console.log(cont);
 
             if (updates == 0){
                 updates=dades.updateTime;
@@ -39,7 +50,7 @@ function peticioAjax(){
                 updates=dades.updateTime;
                 //var station = new Array();
                 $('#info').remove();
-                $(document.body).append('<p id=\'info\'></p><br>');
+                $(document.body).append('<p id=\'info\'></p>');
                 $('#info').append('<p>Nova actualitzacio <b>'+dades.updateTime+'</b></p>');
                 /*station[dades.updateTime]['bikeEst']=0;
                 station[dades.updateTime]['bikeDisp']=0;
@@ -72,9 +83,11 @@ function peticioAjax(){
                     station.push('<div>'+element+'</div>')
                 });*/
                 //alert(dades.stations.length);
+                $('#info2').remove();
+                $(document.body).append('<div id="info2" class=\'row\'></div>');
 //------------------------------Leaflet------------------------------------- 
                 $('#mapid').remove();
-                $(document.body).append('<div id="mapid"></div>');
+                $('#info2').append('<div id="mapid"></div>');
                 var mymap = L.map('mapid').setView([41.3887901, 2.1589899], 12);
                 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -87,7 +100,7 @@ function peticioAjax(){
                 }
 //---------------------------Google Chart-----------------------------------
                 $('#chart_div').remove();
-                $(document.body).append('<div id="chart_div"></div>');
+                $('#info2').append('<div id="chart_div"></div>');
                 // Load the Visualization API and the corechart package.
                 google.charts.load('current', {'packages':['corechart']});
 
